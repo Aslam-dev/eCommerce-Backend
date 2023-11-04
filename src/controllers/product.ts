@@ -7,16 +7,22 @@ const getProduct = async (req: any,res: any) => {
     try{
         res.status(200).jason(product);
     } catch (error){
-
+        res.status(404).json({ error: error });
     }
 
 }
 
-const createProduct = (req:any,res:any) =>{
+const createProduct = async (req:any,res:any) =>{
+    const body = req.body;
+    const newProduct = new Product({
+        ...body
+    });
+
     try{
-
+       await newProduct.save();
+       res.status(201).jason(newProduct);
     } catch(error){
-
+        res.status(409).json({ error: error });
     }
 }
 
